@@ -38,7 +38,10 @@ manajemen-basis-data/
 ├── 01_create_schema_table.sql
 ├── 02_create_users.sql
 ├── 03_grant_privileges.sql
-└── 04_test_privileges.sql
+├── 04_test_privileges.sql
+├── 05_transaction_management.sql
+│
+└── README.md
 ```
 
 Keterangan:
@@ -46,10 +49,11 @@ Keterangan:
 - `.env.example`: Template konfigurasi environment.
 - `.gitignore`: Mengatur file yang tidak disertakan dalam Git.
 - `docker-compose.yml`: Konfigurasi layanan PostgreSQL dan pgAdmin.
-- `01_create_schema_table.sql`: Membuat schema dan tabel.
+- `01_create_schema_table.sql`: Membuat schema dan tabel mahasiswa.
 - `02_create_users.sql`: Membuat akun pengguna database.
-- `03_grant_privileges.sql`: Mengatur hak akses pengguna.
+- `03_grant_privileges.sql`: Mengatur hak akses setiap pengguna.
 - `04_test_privileges.sql`: Berisi query pengujian hak akses.
+- `05_transaction_management.sql`: Mengimplementasikan dan menguji transaksi database menggunakan COMMIT dan ROLLBACK.
 
 ## 4. Konfigurasi Environment
 
@@ -198,7 +202,39 @@ Pembagian hak akses dilakukan menggunakan perintah SQL seperti `GRANT`, `ALTER`,
 
 Penerapan ini bertujuan untuk membatasi akses berdasarkan tanggung jawab masing-masing pengguna.
 
-## 10. Urutan Eksekusi SQL
+## 10. Transaction Management
+
+Sebagai fitur tambahan, project ini mengimplementasikan mekanisme transaksi database (*Transaction Management*) menggunakan PostgreSQL.
+
+Implementasi ini bertujuan untuk menunjukkan bagaimana perubahan data dapat disimpan secara permanen atau dibatalkan sesuai kebutuhan.
+
+### A. ROLLBACK
+
+ROLLBACK digunakan untuk membatalkan seluruh perubahan yang dilakukan selama transaksi berlangsung dan belum di-commit.
+
+Pengujian dilakukan dengan:
+1. Memulai transaksi menggunakan `BEGIN`.
+2. Menambahkan data mahasiswa menggunakan `INSERT`.
+3. Memeriksa data menggunakan `SELECT`.
+4. Membatalkan transaksi menggunakan `ROLLBACK`.
+5. Memastikan data tidak tersimpan setelah transaksi dibatalkan.
+
+### B. COMMIT
+
+COMMIT digunakan untuk menyimpan seluruh perubahan dalam transaksi secara permanen.
+
+Pengujian dilakukan dengan:
+1. Memulai transaksi menggunakan `BEGIN`.
+2. Menambahkan data mahasiswa menggunakan `INSERT`.
+3. Memeriksa data menggunakan `SELECT`.
+4. Menyimpan perubahan menggunakan `COMMIT`.
+5. Memastikan data tetap tersedia setelah transaksi selesai.
+
+### Kesimpulan
+
+Implementasi COMMIT dan ROLLBACK menunjukkan penerapan pengelolaan transaksi pada PostgreSQL. Kedua mekanisme tersebut memberikan kontrol terhadap perubahan data serta membantu menjaga konsistensi database.
+
+## 11. Urutan Eksekusi SQL
 
 Jalankan file SQL menggunakan akun administrator PostgreSQL dengan urutan berikut:
 
@@ -206,10 +242,11 @@ Jalankan file SQL menggunakan akun administrator PostgreSQL dengan urutan beriku
 2. `02_create_users.sql`
 3. `03_grant_privileges.sql`
 4. `04_test_privileges.sql`
+5. `05_transaction_management.sql`
 
 Pengujian dilakukan untuk memastikan schema, tabel, akun pengguna, serta hak akses telah diterapkan sesuai kebutuhan.
 
-## 11. Repository
+## 12. Repository
 
 Source code dan konfigurasi project tersedia di GitHub:
 
