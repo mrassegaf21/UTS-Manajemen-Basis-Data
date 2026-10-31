@@ -1,0 +1,3 @@
+CREATE USER backend_dev WITH PASSWORD 'BackendDev133!';
+CREATE USER bi_dev WITH PASSWORD 'BiDev133!';
+CREATE USER data_engineer WITH PASSWORD 'DataEngineer133!';
